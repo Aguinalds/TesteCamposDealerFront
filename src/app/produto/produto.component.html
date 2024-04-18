@@ -1,0 +1,114 @@
+<div class="cliente-list">
+    <h2 class="ml-2">Lista de Produtos</h2>
+    <button type="button" class="btn btn-primary ml-2 mb-2" data-toggle="modal" data-target="#modalAdicionarProduto" (click)="abrirModalAdicionar()">Adicionar</button>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Valor</th>
+            <th class="d-flex justify-content-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let produto of produtos">
+            <td>{{ produto.idProduto }}</td>
+            <td>{{ produto.dscProduto }}</td>
+            <td>{{ produto.vlrUnitario }}</td>
+            <td class="d-flex justify-content-center">
+              <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalEditarProduto" (click)="abrirModalEditar(produto)">Editar</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluirProduto" (click)="abrirModalExcluir(produto)">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Adicionar -->
+  <div class="modal fade" id="modalAdicionarProduto" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLabel">Adicionar Produto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="produtoSelecionado">
+          <form (ngSubmit)="adicionarProduto(produtoSelecionado)">
+            <div class="form-group">
+              <label for="dscProduto">Nome:</label>
+              <input type="text" class="form-control" id="dscProduto" [(ngModel)]="produtoSelecionado.dscProduto" name="dscProduto">
+            </div>
+            <div class="form-group">
+              <label for="vlrUnitario">Valor:</label>
+              <input type="text" class="form-control" id="vlrUnitario" [(ngModel)]="produtoSelecionado.vlrUnitario" name="vlrUnitario">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Modal de Edição -->
+  <div class="modal fade" id="modalEditarProduto" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLabel">Editar Produto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="produtoSelecionado">
+          <form (ngSubmit)="editarProduto(produtoSelecionado)">
+            <div class="form-group">
+              <label for="idProduto">ID:</label>
+              <input type="text" class="form-control" id="idProduto" [(ngModel)]="produtoSelecionado.idProduto" name="idProduto" disabled>
+            </div>
+            <div class="form-group">
+              <label for="dscProduto">Nome:</label>
+              <input type="text" class="form-control" id="dscProduto" [(ngModel)]="produtoSelecionado.dscProduto" name="dscProduto">
+            </div>
+            <div class="form-group">
+              <label for="vlrUnitario">Valor:</label>
+              <input type="text" class="form-control" id="vlrUnitario" [(ngModel)]="produtoSelecionado.vlrUnitario" name="vlrUnitario">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Exclusão -->
+  <div class="modal fade" id="modalExcluirProduto" tabindex="-1" role="dialog" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="produtoSelecionado">
+          <p>Deseja realmente excluir o produto {{ produtoSelecionado.dscProduto }}?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="excluirProduto(produtoSelecionado)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

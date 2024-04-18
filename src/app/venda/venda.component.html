@@ -1,0 +1,163 @@
+<div class="cliente-list">
+  <h2 class="ml-2">Lista de Vendas</h2>
+  <button type="button" class="btn btn-primary ml-2 mb-2" data-toggle="modal" data-target="#modalAdicionarVenda"
+    (click)="abrirModalAdicionar()">Adicionar</button>
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Produto</th>
+          <th>Cliente</th>
+          <th>Quantidade</th>
+          <th>Valor Unitário</th>
+          <th>Valor Total</th>
+          <th>Data da Venda</th>
+          <th class="d-flex justify-content-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venda of vendas">
+          <td>{{ venda.idVenda }}</td>
+          <td>{{ venda.produto?.dscProduto }}</td>
+          <td>{{ venda.cliente?.nmCliente }}</td>
+          <td>{{ venda.qtdVenda }}</td>
+          <td>{{ venda.vlrUnitarioVenda }}</td>
+          <td>{{ venda.vlrTotalVenda }}</td>
+          <td>{{ venda.dthVenda }}</td>
+          <td class="d-flex justify-content-center">
+            <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalEditarVenda"
+              (click)="abrirModalEditar(venda)">Editar</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluirVenda"
+              (click)="abrirModalExcluir(venda)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Adicionar -->
+<div class="modal fade" id="modalAdicionarVenda" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarLabel">Adicionar Produto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="vendaSelecionada">
+        <form (ngSubmit)="adicionarVenda(vendaSelecionada)">
+          <div class="form-group">
+            <label for="produtoId">Produto:</label>
+            <select class="form-control" id="produtoId" [(ngModel)]="vendaSelecionada.produtoId" name="produtoId">
+              <option *ngFor="let produto of produtos" [value]="produto.idProduto">{{ produto.dscProduto }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ClienteId">Cliente:</label>
+            <select class="form-control" id="ClienteId" [(ngModel)]="vendaSelecionada.clienteId" name="ClienteId">
+              <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">{{ cliente.nmCliente }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="qtdVenda">Quantidade:</label>
+            <input type="text" class="form-control" id="qtdVenda" [(ngModel)]="vendaSelecionada.qtdVenda" name="qtdVenda" disabled="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de Edição -->
+<div class="modal fade" id="modalEditarVenda" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarLabel">Editar Venda</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="vendaSelecionada">
+        <form (ngSubmit)="editarVenda(vendaSelecionada)">
+          <div class="form-group">
+            <label for="idVenda">ID:</label>
+            <input type="text" class="form-control" id="idVenda" [(ngModel)]="vendaSelecionada.idVenda" name="idVenda"
+              disabled>
+          </div>
+          <div class="form-group">
+            <div class="form-group">
+              <label for="produtoId">Produto:</label>
+              <select class="form-control" id="produtoId" [(ngModel)]="vendaSelecionada.produtoId" name="produtoId">
+                <option *ngFor="let produto of produtos" [value]="produto.idProduto">{{ produto.dscProduto }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="clienteId">Cliente:</label>
+              <select class="form-control" id="clienteId" [(ngModel)]="vendaSelecionada.clienteId" name="clienteId">
+                <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">{{ cliente.nmCliente }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="qtdVenda">Quantidade:</label>
+            <input type="text" class="form-control" id="qtdVenda" [(ngModel)]="vendaSelecionada.qtdVenda"
+              name="qtdVenda">
+          </div>
+          <div class="form-group">
+            <label for="vlrUnitarioVenda">Valor Unitário:</label>
+            <input type="text" class="form-control" id="vlrUnitarioVenda"
+              [(ngModel)]="vendaSelecionada.vlrUnitarioVenda" name="vlrUnitarioVenda" disabled="">
+          </div>
+          <div class="form-group">
+            <label for="vlrTotalVenda">Valor Total:</label>
+            <input type="text" class="form-control" id="vlrTotalVenda" [(ngModel)]="vendaSelecionada.vlrTotalVenda"
+              name="vlrTotalVenda" disabled="">
+          </div>
+          <div class="form-group">
+            <label for="dthVenda">Data da Venda:</label>
+            <input type="text" class="form-control" id="dthVenda" [(ngModel)]="vendaSelecionada.dthVenda"
+              name="dthVenda" disabled="">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão -->
+<div class="modal fade" id="modalExcluirVenda" tabindex="-1" role="dialog" aria-labelledby="modalExcluirLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="vendaSelecionada">
+        <p>Deseja realmente excluir a venda {{ vendaSelecionada.idVenda }}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="excluirVenda(vendaSelecionada)">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>

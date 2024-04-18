@@ -1,0 +1,114 @@
+<div class="cliente-list">
+    <h2 class="ml-2">Lista de Clientes</h2>
+    <button type="button" class="btn btn-primary ml-2 mb-2" data-toggle="modal" data-target="#modalAdicionar" (click)="abrirModalAdicionar()">Adicionar</button>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Cidade</th>
+            <th class="d-flex justify-content-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.idCliente }}</td>
+            <td>{{ cliente.nmCliente }}</td>
+            <td>{{ cliente.cidade }}</td>
+            <td class="d-flex justify-content-center">
+              <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalEditar" (click)="abrirModalEditar(cliente)">Editar</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" (click)="abrirModalExcluir(cliente)">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Adicionar -->
+  <div class="modal fade" id="modalAdicionar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLabel">Adicionar Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="clienteSelecionado">
+          <form (ngSubmit)="adicionarCliente(clienteSelecionado)">
+            <div class="form-group">
+              <label for="nmCliente">Nome:</label>
+              <input type="text" class="form-control" id="nmCliente" [(ngModel)]="clienteSelecionado.nmCliente" name="nmCliente">
+            </div>
+            <div class="form-group">
+              <label for="cidade">Cidade:</label>
+              <input type="text" class="form-control" id="cidade" [(ngModel)]="clienteSelecionado.cidade" name="cidade">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Modal de Edição -->
+  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLabel">Editar Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="clienteSelecionado">
+          <form (ngSubmit)="editarCliente(clienteSelecionado)">
+            <div class="form-group">
+              <label for="idCliente">ID:</label>
+              <input type="text" class="form-control" id="idCliente" [(ngModel)]="clienteSelecionado.idCliente" name="idCliente" disabled>
+            </div>
+            <div class="form-group">
+              <label for="nmCliente">Nome:</label>
+              <input type="text" class="form-control" id="nmCliente" [(ngModel)]="clienteSelecionado.nmCliente" name="nmCliente">
+            </div>
+            <div class="form-group">
+              <label for="cidade">Cidade:</label>
+              <input type="text" class="form-control" id="cidade" [(ngModel)]="clienteSelecionado.cidade" name="cidade">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Exclusão -->
+  <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="clienteSelecionado">
+          <p>Deseja realmente excluir o cliente {{ clienteSelecionado.nmCliente }}?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="excluirCliente(clienteSelecionado)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
